@@ -1,0 +1,30 @@
+{
+  "name": "blingblinghan.github.io",
+  "description": "Personal Homepage",
+  "main": "index.html",
+  "authors": [
+    "YangFan <fan107@163.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "html5",
+    "css3"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "homepage": "http://blingblinghan.github.io",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.14.3",
+    "requirejs": "~2.1.22",
+    "bootstrap": "~3.3.6"
+  }
+}
