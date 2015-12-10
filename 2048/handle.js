@@ -30,6 +30,8 @@ function getNewCard() {
 //创建4 * 4地图
 function initMap() {
     config.map = []
+    config.score.value = 0;
+    config.over = false;
     for (var i = 0; i < 4; i++) {
         config.map[i] = []
         for (var j = 0; j < 4; j++) {
@@ -38,11 +40,11 @@ function initMap() {
             config.map[i][j].conflicted = false
         }
     }
+    ScoreView.draw()
     BoardView.draw()
     getNewCard()
     getNewCard()
 }
-
 
 // 移动已有方块
 function moveCard(keyCode) {
@@ -60,17 +62,22 @@ function moveCard(keyCode) {
     false: 队列里还有未完成的方块儿
 */
 function isAllArrived() {
+    // if(!ScoreView.arrived) {
+    //     return false
+    // }
     for (var i = 0, len = config.queue.length; i < len; i++)
         if (!config.queue[i].arrived) {
             return false
         }
+
     return true
 }
 
 //移动完成后，重绘地图
 function reDrawMap() {
-    BoardView.clear()
+    Canvas.clear()
     BoardView.draw()
+    ScoreView.draw()
     for (var i = 0; i < 4; i++)
         for (var j = 0; j < 4; j++) {
             if (config.map[i][j].value > 0) {
@@ -126,6 +133,10 @@ function toLeft(confirm) {
                                 config.map[i][k].value++
                                 config.map[i][k].conflicted = true
 
+
+                                config.score.value += Math.pow(2,config.map[i][k].value)
+                                config.score.add = Math.pow(2,config.map[i][k].value)
+
                                 if (config.map[i][k].value == 11) //出现2048游戏通关
                                     config.gameWin = true
                             }
@@ -175,6 +186,8 @@ function toRight(confirm) {
                                 config.map[i][j].card.setEndPos(i, k)
                                 config.map[i][k].value++
                                 config.map[i][k].conflicted = true
+                                config.score.value += Math.pow(2,config.map[i][k].value)
+                                config.score.add = Math.pow(2,config.map[i][k].value)
                                 if (config.map[i][k].value == 11)
                                     config.gameWin = true
                             }
@@ -222,6 +235,8 @@ function toTop(confirm) {
                                 config.map[i][j].card.setEndPos(k, j)
                                 config.map[k][j].value++
                                 config.map[k][j].conflicted = true
+                                config.score.value += Math.pow(2,config.map[k][j].value)
+                                config.score.add = Math.pow(2,config.map[i][k].value)
                                 if (config.map[k][j].value == 11)
                                     config.gameWin = true
                             }
@@ -268,7 +283,8 @@ function toBottom(confirm) {
                                 config.map[i][j].value = 0
                                 config.map[i][j].card.setEndPos(k, j)
                                 config.map[k][j].value++
-                                    config.map[k][j].conflicted = true
+                                config.map[k][j].conflicted = true
+                                config.score.value += Math.pow(2,config.map[k][j].value);
                                 if (config.map[k][j].value == 11)
                                     config.gameWin = true
                             }

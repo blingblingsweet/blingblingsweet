@@ -1,0 +1,85 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.title {
+  color: #776e65;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 80px;
+  font-weight: bold;
+  margin: 10px;
+  text-align: center;
+}
+.button, .button:visited, .button:focus {
+    font-weight: bold;
+    font-size: 16px;
+    font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    text-decoration: none;
+    text-align: center;
+    line-height: 30px;
+    height: 30px;
+    padding: 0 20px;
+    margin: 0 auto;
+    width: 30%;
+    display: block;
+    cursor: pointer;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    -webkit-box-shadow: 0 7px 0 #715E4C, 0 8px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 7px 0 #715E4C, 0 8px 3px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    background-color: #8f7a66;
+    color: #FFF;
+    position: relative;
+    top:0;
+}
+.button:hover {
+  color: #CCC;
+  text-decoration: none;
+  outline: none;
+}
+.button:active {
+    top: 5px;
+    -webkit-box-shadow: 0 2px 0 #98816A, 0 3px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 0 #98816A, 0 3px 3px rgba(0, 0, 0, 0.2);
+    background-color: #796653;
+    color: #715E4C;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+}
+
+.content {
+  width: 520px;
+  height: 620px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+@media screen and (max-width: 520px) {
+  .title {
+    font-size: 50px;
+  }
+  .button, .button:visited, .button:focus, .button:hover, .button:active {
+    width: 50%;
+  }
+  .container {
+    width: 100%;
+    padding: 0;
+  }
+  .content {
+    width: 280px;
+    height: 330px;
+  }
+}
+
+#canvas {
+   display: block;
+}

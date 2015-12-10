@@ -1,21 +1,32 @@
-var canvas = document.getElementById('canvas')
-var context = canvas.getContext("2d")
-canvas.width = 800
-canvas.height = 800
+var content = document.getElementById('content')
+, canvas = document.getElementById('canvas')
+canvas.width = content.offsetWidth
+canvas.height = content.offsetHeight
+
+
 var config = {
+	over: true,
+	score: {
+		x: canvas.width/4*3,
+		y: (canvas.height-canvas.width)/2,
+		fontSize: (canvas.height-canvas.width) * 0.4,
+		value: 0,
+		add: 0
+	},
 	board: {
-		x: canvas.width / 2 - 250,
-		y: 250,
-		width: 500,
-		height: 500,
-		color: "#BCAD9D"
+		x: 0,
+		y: canvas.height - canvas.width,
+		width: canvas.width,
+		height: canvas.width,
+		color: "#BCAD9D",
+		radius: 6
 	},
 	border: {
-		width: 20
+		width: canvas.width/25
 	},
 	grid: {
-		width: 100,
-		height: 100,
+		width: canvas.width/5,
+		height: canvas.width/5,
 		color: "#CDBFB5",
 		radius: 6
 	},
@@ -27,11 +38,22 @@ var config = {
 	queue: [] //动画队列
 }
 
+var Canvas = (function() {
+
+	function Klass() {}
+
+	Klass.cxt = canvas.getContext("2d")
+
+	Klass.clear = function() {
+		this.cxt.clearRect(0, 0, canvas.width, canvas.height)
+	}
+	return Klass
+})()
+
 var BasicLib = (function() {
 	// 基础图形静态类
 	var Klass = function() {}
-
-	Klass.cxt = context
+	Klass.cxt = Canvas.cxt
 
 	Klass.fillText = function(text, x, y, size, color) {
 		this.cxt.font = "bold " + size + "px Arial"
@@ -69,6 +91,34 @@ var BasicLib = (function() {
 	return Klass
 })()
 
+var ScoreView = (function() {
+	var Klass = function() {}
+
+	Klass.x = config.score.x
+	Klass.y = config.score.y
+	Klass.fontSize = config.score.fontSize
+	Klass.addX = 20
+	Klass.arrived = false
+
+	Klass.draw = function() {
+		BasicLib.fillText("Score: " + config.score.value, this.x, this.y, this.fontSize, "#776e65")
+	}
+
+	Klass.add = function(score) {
+		var step = 5
+		this.addX += step
+		console.log(this.addX, this.x);
+		if (this.addX < this.x) 
+			BasicLib.fillText(" + " + config.score.add, this.addX, this.y, this.fontSize, "#776e65")
+		else {
+			this.addX = 20
+			this.arrived = true
+		}
+	}
+
+	return Klass;
+})()
+
 var BoardView = (function() {
 	// 棋盘静态类
 	var Klass = function() {}
@@ -76,7 +126,7 @@ var BoardView = (function() {
 	Klass.y = config.board.y
 	Klass.width = config.board.width
 	Klass.height = config.board.height
-	Klass.radius = 10
+	Klass.radius = config.board.radius
 	Klass.borderWidth = config.border.width
 	Klass.color = config.board.color
 	Klass.gridWidth = config.grid.width
@@ -84,9 +134,6 @@ var BoardView = (function() {
 	Klass.gridRadius = config.grid.radius
 	Klass.gridColor = config.grid.color
 
-	Klass.clear = function() {
-		context.clearRect(this.x, this.y, this.width, this.height)
-	}
 	Klass.draw = function() {
 		BasicLib.fillRoundRect(
 			this.x, this.y, this.width, this.height,
