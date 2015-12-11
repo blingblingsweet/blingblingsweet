@@ -31,7 +31,6 @@ function getNewCard() {
 function initMap() {
     config.map = []
     config.score.value = 0;
-    config.over = false;
     for (var i = 0; i < 4; i++) {
         config.map[i] = []
         for (var j = 0; j < 4; j++) {
@@ -62,9 +61,6 @@ function moveCard(keyCode) {
     false: 队列里还有未完成的方块儿
 */
 function isAllArrived() {
-    // if(!ScoreView.arrived) {
-    //     return false
-    // }
     for (var i = 0, len = config.queue.length; i < len; i++)
         if (!config.queue[i].arrived) {
             return false
@@ -138,7 +134,7 @@ function toLeft(confirm) {
                                 config.score.add = Math.pow(2,config.map[i][k].value)
 
                                 if (config.map[i][k].value == 11) //出现2048游戏通关
-                                    config.gameWin = true
+                                    config.win = true
                             }
                             canMove = true
                         } else {
@@ -189,7 +185,7 @@ function toRight(confirm) {
                                 config.score.value += Math.pow(2,config.map[i][k].value)
                                 config.score.add = Math.pow(2,config.map[i][k].value)
                                 if (config.map[i][k].value == 11)
-                                    config.gameWin = true
+                                    config.win = true
                             }
                             canMove = true
                         } else {
@@ -238,7 +234,7 @@ function toTop(confirm) {
                                 config.score.value += Math.pow(2,config.map[k][j].value)
                                 config.score.add = Math.pow(2,config.map[i][k].value)
                                 if (config.map[k][j].value == 11)
-                                    config.gameWin = true
+                                    config.win = true
                             }
                             canMove = true
                         } else {
@@ -286,7 +282,7 @@ function toBottom(confirm) {
                                 config.map[k][j].conflicted = true
                                 config.score.value += Math.pow(2,config.map[k][j].value);
                                 if (config.map[k][j].value == 11)
-                                    config.gameWin = true
+                                    config.win = true
                             }
                             canMove = true
                         } else {

@@ -2,10 +2,10 @@ var content = document.getElementById('content')
 , canvas = document.getElementById('canvas')
 canvas.width = content.offsetWidth
 canvas.height = content.offsetHeight
-
+var documentWidth = window.screen.availWidth
 
 var config = {
-	over: true,
+	win: false,
 	score: {
 		x: canvas.width/4*3,
 		y: (canvas.height-canvas.width)/2,
@@ -104,15 +104,16 @@ var ScoreView = (function() {
 		BasicLib.fillText("Score: " + config.score.value, this.x, this.y, this.fontSize, "#776e65")
 	}
 
-	Klass.add = function(score) {
-		var step = 5
+	Klass.move = function(score) {
+		var step = 2
 		this.addX += step
-		console.log(this.addX, this.x);
-		if (this.addX < this.x) 
+		if ( config.score.add && this.addX < 100) {
+			this.arrived = false
 			BasicLib.fillText(" + " + config.score.add, this.addX, this.y, this.fontSize, "#776e65")
-		else {
+		} else {
 			this.addX = 20
 			this.arrived = true
+			config.score.add = 0
 		}
 	}
 
