@@ -3,8 +3,7 @@ requirejs.config({
     paths: {
         index: './index',
         requestAnimationFrame: './requestAnimationFrame',
-        jqParallax: './jquery.parallax',
-        parallax: './parallax',
+        jqParallax: '../libs/parallax/deploy/jquery.parallax',
         requestAnimationFrame: './requestAnimationFrame',
         jquery: '../libs/jquery/dist/jquery',
         react: '../libs/react/react'
