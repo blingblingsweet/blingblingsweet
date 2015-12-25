@@ -106,23 +106,23 @@ define(['zepto', 'd3'], function($, d3) {
 			.attr("width", width)
 			.attr("height", height);
 
-		// //画布周边的空白
-		// var padding = {
-		// 	left: 30,
-		// 	right: 30,
-		// 	top: 20,
-		// 	bottom: 20
-		// };
+		//画布周边的空白
+		var padding = {
+			left: 30,
+			right: 30,
+			top: 20,
+			bottom: 20
+		};
 
 		//x轴的比例尺
 		var xScale = d3.scale.ordinal()
 			.domain(xSet)
-			.rangeBands([0, width]);
+			.rangeRoundBands([0, width - padding.left - padding.right]);
 
 		//y轴的比例尺
 		var yScale = d3.scale.linear()
 			.domain([0, d3.max(ySet)])
-			.range([height, 0]);
+			.range([height - padding.top - padding.bottom, 0]);
 
 		//定义x轴
 		var xAxis = d3.svg.axis()
@@ -142,54 +142,46 @@ define(['zepto', 'd3'], function($, d3) {
 				return yScale(d);
 			});
 
-		var area = d3.svg.area()
-			.x(function(d,i) {
-				return xScale(xSet[i]);
-			})
-			.y0(height)
-			.y1(function(d,i) {
-				return yScale(d);
-			});
-			
-		var defs = svg.append("defs");
-		var lineColor = defs.append("linearGradient")
-		.attr("id", "lineColor")
-		.attr("x1", "100%")
-		.attr("y1", "100%")
-		.attr("x2", "100%")
-		.attr("y2", "0");
-		lineColor.append("stop")
-		.attr("offset", "0")
-		.attr("stop-color", "#a7df1e")
-		.attr("stop-opacity", 1);
-		lineColor.append("stop")
-		.attr("offset", "100%")
-		.attr("stop-color", "#7be1f0")
-		.attr("stop-opacity", 0);
-		var areaColor = defs.append("linearGradient")
-		.attr("id", "areaColor")
-		.attr("x1", "100%")
-		.attr("y1", "100%")
-		.attr("x2", "100%")
-		.attr("y2", "0");
-		areaColor.append("stop")
-		.attr("offset", "0")
-		.attr("stop-color", "#dccfa7")
-		.attr("stop-opacity", 0);
-		areaColor.append("stop")
-		.attr("offset", "100%")
-		.attr("stop-color", "#dccfa7")
-		.attr("stop-opacity", 1);
-
 		svg.append("path")
 			.attr("d", line(dataSet))
-			.attr("fill", "none")
-		    .attr("stroke-width", 10)
-	        .style("stroke", "url(#" + lineColor.attr("id") +")")
+		    .attr("stroke","steelblue")
+		    .attr("stroke-width", 2)
+		    .attr("fill", "none")
 
-	    svg.append("path")
-	        .attr("d", area(dataSet))
-	        .style("fill", "url(#" + areaColor.attr("id") +")")
+		//矩形之间的空白
+		var rectPadding = 4;
+
+		//添加矩形元素
+		var rects = svg.selectAll(".MyRect")
+			.data(dataSet)
+			.enter()
+			.append("rect")
+			.attr("class", "MyRect")
+			.attr("transform", "translate(" + padding.left + "," + padding.top + ")")
+			.attr("x", function(d, i) {
+				console.log(d, i, xScale(d), xScale(i), xSet[i]);
+				return xScale(xSet[i]) + rectPadding / 2;
+			})
+			.attr("y", function(d) {
+				return yScale(d);
+			})
+			.attr("width", xScale.rangeBand() - rectPadding)
+			.attr("height", function(d) {
+				return height - padding.top - padding.bottom - yScale(d);
+			});
+
+		//添加x轴
+		svg.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate(" + padding.left + "," + (height - padding.bottom) + ")")
+			.call(xAxis);
+
+		//添加y轴
+		svg.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate(" + padding.left + "," + padding.top + ")")
+			.call(yAxis);
+
 	}
 	init();
 	console.log(d3);

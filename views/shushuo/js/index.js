@@ -1,7 +1,14 @@
 define([
   'zepto',
-  './backgroundRender'
-], function($, fss){
+  './charts'
+], function($, charts) {
+    $.fn.animClass = function(cls) {
+        var that = $(this).removeClass(cls);
+        setTimeout(function() {
+            that.addClass(cls)
+        }, 50)
+    };
+
   // function(a) {
   //     function b(a) {
   //         "100%" == a && 0 == i && (i = !0, d())
@@ -22,10 +29,12 @@ define([
   //     }, j)
   // }(start);
 
-  fss.initialise();
 
 
-  var initialize = function(){
+  // fss.initialise();
+
+
+  var initialize = function() {
     // Pass in our Router module and call it's initialize function
 
   }
